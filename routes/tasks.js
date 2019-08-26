@@ -41,4 +41,22 @@ router.post('/task', function(req, res, next){
   }
 });
 
+// Delete task.
+router.delete('/task', function(req, res, next){
+  let task = req.body;
+  if(!task.title || (task.isDone + '')){
+    res.status(400);
+    res.json({
+      "error":"Bad Data"
+    })
+  } else {
+    db.tasks.remove(task, function(err, task){
+      if(err){
+        res.send(err);
+      }
+      res.json(task);
+    });
+  }
+});
+
 module.exports = router;
